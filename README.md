@@ -8,8 +8,8 @@
 
 1. Clone Repository
 เปิด Terminal หรือ Command Prompt ของคุณ แล้วโคลนโปรเจกต์นี้ลงบนเครื่อง
-git clone xxx
-cd xxx
+git clone https://github.com/kritsapdev/ai-for-thai-api-quiz.git
+cd ai-for-thai-api-quiz
 ---
 
 2. Deploy and Run Containers (ติดตั้งและรัน Docker Containers)
@@ -20,18 +20,18 @@ docker-compose up -d --build
 3. Test the API (ทดสอบ API)
 3.1 ทดสอบผ่าน curl (ใน Terminal)
    เปิด Terminal แล้วรันคำสั่ง 
-   curl -X POST -H "Content-Type: application/json" -d "{\"text\": \"นี่คือข้อความที่ฉันต้องการส่งผ่าน API Chain\"}" http://localhost:8000/api1-process
+   curl -X POST -H "Content-Type: application/json" -d "{\"text\": \"This data to API Chain\"}" http://localhost:8000/api1-process
 
    ผลลัพธ์จะได้ดังนี้
    {
     "message_from_api1":"API 1 processed your request and got a response from API 2.",
-    "original_text_sent_by_user":"นี่คือข้อความที่ฉันต้องการส่งผ่าน API Chain",
+    "original_text_sent_by_user":"This data to API Chain",
     "response_from_api2":
         {
             "api_name":"API 2 Responder",
-            "message":"API 2 received your message: 'นี่คือข้อความที่ฉันต้องการส่งผ่าน API Chain'",
+            "message":"API 2 received your message: 'This data to API Chain'",
             "processed_at_api2":"2025-07-20 12:38:59",
-            "your_input_was":"นี่คือข้อความที่ฉันต้องการส่งผ่าน API Chain"
+            "your_input_was":"This data to API Chain"
         },
         "status":"success"
     }
@@ -42,6 +42,27 @@ docker-compose up -d --build
     ที่แท็บ Headers 
         Key: Content-Type
         Value: application/json
+    แท็บ Body
+        เลือก raw
+        เลือก JSON
+        วาง JSON Payload 
+        {
+            "text": "ข้อความที่คุณต้องการให้ API ประมวลผลและโต้ตอบ"
+        }
+    กด send
+
+    ผลลัพธ์จะได้ดังนี้
+    {
+    "message_from_api1": "API 1 processed your request and got a response from API 2.",
+    "original_text_sent_by_user": "ข้อความที่จะส่งจาก User ไปยัง API 1 และต่อด้วย API 2",
+    "response_from_api2": {
+        "api_name": "API 2 Responder",
+        "message": "API 2 received your message: 'ข้อความที่จะส่งจาก User ไปยัง API 1 และต่อด้วย API 2'",
+        "processed_at_api2": "2025-07-20 12:21:55",
+        "your_input_was": "ข้อความที่จะส่งจาก User ไปยัง API 1 และต่อด้วย API 2"
+    },
+    "status": "success"
+}
 ---
 
 4. การดู Logs
@@ -57,5 +78,5 @@ docker-compose up -d --build
 docker-compose down
 
 หากต้องการลบ Docker Images ที่สร้างขึ้นมาด้วย
-docker-compose down --rmi all
+docker-compose down --rmi all   
 
