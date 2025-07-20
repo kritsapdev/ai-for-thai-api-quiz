@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api1:
+    build: ./api1 # Path ไปยังโฟลเดอร์ของ API 1 ที่มี Dockerfile
+    container_name: api1_container
+    ports:
+      - "8000:8000" # แมปพอร์ต 8000 ของ Host ไปยังพอร์ต 8000 ของ Container API 1
+    environment:
+      # URL ของ API 2 ที่ API 1 จะเรียกใช้
+      # ใช้ชื่อ service ใน Docker Compose ("api2") เพื่อให้ Docker จัดการ DNS resolution ให้
+      API2_URL: http://api2:8001/api2-hello
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  api2:
+    build: ./api2 # Path ไปยังโฟลเดอร์ของ API 2 ที่มี Dockerfile
+    container_name: api2_container
+    ports:
+      - "8001:8001" # แมปพอร์ต 8001 ของ Host ไปยังพอร์ต 8001 ของ Container API 2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
